@@ -1,0 +1,35 @@
+{
+  "name": "StepSmartAPI",
+  "version": "1.0.0",
+  "description": "Backend for Step Smart app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config app.js",
+    "db-create": "node -r dotenv/config ./db/scripts/create-table.js",
+    "db-drop": "node -r dotenv/config ./db/scripts/drop-table.js",
+    "db-refill": "node -r dotenv/config ./db/scripts/refill-table.js",
+    "db-reset": "node -r dotenv/config ./db/scripts/reset-table.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SchoolOfCode/bc13_w9_project-backend-the-train-ees.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SchoolOfCode/bc13_w9_project-backend-the-train-ees/issues"
+  },
+  "homepage": "https://github.com/SchoolOfCode/bc13_w9_project-backend-the-train-ees#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
+  }
+}
