@@ -3,7 +3,7 @@ import { pool } from "../index.js";
 
 try {
   await createTable();
-  console.log("Created 'cards' table");
+  console.log("Created 'StickData' table");
 } catch (err) {
   console.error(err);
 } finally {

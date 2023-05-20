@@ -3,7 +3,7 @@ import { pool } from "../index.js";
 
 try {
   await dropTable();
-  console.log("Dropped 'cards' table");
+  console.log("Dropped 'StickData' table");
 } catch (err) {
   console.error(err);
 } finally {

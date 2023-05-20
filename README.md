@@ -21,7 +21,7 @@ Can then use Postman to test api at url `localhost:3000/StepSmart/api/?code=1234
 ## Routes
 API is at `/StepSmart/api/`<br>
 A code is required: `/StepSmart/api/?code=12345678`<br>
-The PATCH method requires body in json format
+The PATCH method requires a body in json format
 - Alert data (Get or Patch): `/StepSmart/api/alert?code=12345678`
 - Contacts (Get or Patch): `/StepSmart/api/contacts?code=12345678`
 - Lost mode (Get or Patch): `/StepSmart/api/lost?code=12345678`
