@@ -1,6 +1,6 @@
 # Step Smart API
 
-This is the API for the Step Smart system.
+This is the API for the Step Smart system.<br>
 It allows the app and Arduino to send and receive data to the databse and therefore communicate with each other.
 
 ## Dependecies
@@ -14,13 +14,13 @@ It allows the app and Arduino to send and receive data to the databse and theref
 - PORT
 
 ## Deployment
-To install dependencies run: `npm i`
-To run locally: `npm run dev`
+To install dependencies run: `npm i`<br>
+To run locally: `npm run dev`<br>
 Can then use Postman to test api at url `localhost:3000/StepSmart/api/?code=12345678`
 
 ## Routes
-API is at `/StepSmart/api/`
-A code is required: `/StepSmart/api/?code=12345678`
+API is at `/StepSmart/api/`<br>
+A code is required: `/StepSmart/api/?code=12345678`<br>
 The PATCH method requires body in json format
 - Alert data (Get or Patch): `/StepSmart/api/alert?code=12345678`
 - Contacts (Get or Patch): `/StepSmart/api/contacts?code=12345678`
