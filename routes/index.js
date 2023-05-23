@@ -11,6 +11,15 @@ function error(data, res){
 
 }
 
+// Minimal endpoint
+router.get("/", async (req, res) => {
+    try {
+        res.status(200).json({ status: "Good" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 // GET all stick data
 router.get("/", async (req, res) => {
   if (req.query.code !== undefined) {
