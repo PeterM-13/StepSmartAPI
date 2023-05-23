@@ -11,14 +11,6 @@ function error(data, res){
 
 }
 
-// Minimal endpoint
-router.get("/", async (req, res) => {
-    try {
-        res.status(200).json({ status: "Good" });
-    } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
-    }
-});
 
 // GET all stick data
 router.get("/", async (req, res) => {
@@ -35,7 +27,7 @@ router.get("/", async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     }
   } else {
-    res.status(400).json({ error: "Missing code parameter" });
+    res.status(200).json({ status: "Good connection", error: "Add code parameter" });
   }
 });
 
