@@ -30,5 +30,15 @@ async function updateAlert(code, update) {
   );
   return results.rows[0].alert;
 }
-
-export { getStickData, getAlertData, updateAlert };
+// async function to update lost value
+async function updateLost(code, update) {
+  const results = await pool.query(
+    `UPDATE StickData
+    SET lost = $2
+    WHERE code = $1
+    RETURNING *`,
+    [code, update]
+  );
+  return results.rows[0].alert;
+}
+export { getStickData, getAlertData, updateAlert, updateLost };
