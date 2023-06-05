@@ -5,6 +5,7 @@ import {
   getStickData,
   getAlertData,
   updateAlert,
+  getLostData,
   updateLost,
 } from "../models/index.js";
 
@@ -75,7 +76,7 @@ router.get("/lost", async (req, res) => {
   if (req.query.code !== undefined) {
     const code = req.query.code;
     try {
-      const lostData = await getAlertData(code);
+      const lostData = await getLostData(code);
       if (lostData) {
         res.status(200).json(lostData);
       } else {
