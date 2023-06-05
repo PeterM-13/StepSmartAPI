@@ -77,7 +77,6 @@ router.get("/lost", async (req, res) => {
     const code = req.query.code;
     try {
       const lostData = await getLostData(code);
-      console.log("Lost Data:", lostData);
       if (lostData) {
         res.status(200).json(lostData);
       } else {

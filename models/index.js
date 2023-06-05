@@ -36,7 +36,7 @@ async function getLostData(code) {
     WHERE code = $1`,
     [code]
   );
-  return results.rows[0].lost;
+  return results.rows[0];
 }
 // async function to update lost value
 async function updateLost(code, update) {
@@ -47,6 +47,6 @@ async function updateLost(code, update) {
     RETURNING *`,
     [code, update]
   );
-  return results.rows[0].lost;
+  return results.rows[0];
 }
 export { getStickData, getAlertData, updateAlert, getLostData, updateLost };
