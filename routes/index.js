@@ -132,7 +132,7 @@ router.get("/contacts", async (req, res) => {
 });
 
 // Update contacts - PATCH
-router.patch("/lost", async (req, res) => {
+router.patch("/contacts", async (req, res) => {
   const code = req.query.code;
   const update = req.body.contacts;
   if (code !== undefined && update !== undefined) {
@@ -141,7 +141,8 @@ router.patch("/lost", async (req, res) => {
       if (updatedData) {
         res.status(200).json(updatedData);
       } else {
-        res.status(404).json({ error: "Lost data not found" });
+        print("Received: ", update)
+        res.status(404).json({ error: "Contacts data not found" });
       }
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
