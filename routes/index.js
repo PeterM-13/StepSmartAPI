@@ -5,6 +5,8 @@ import {
   getStickData,
   getAlertData,
   updateAlert,
+  getContactsData,
+  updateContacts,
   getLostData,
   updateLost,
 } from "../models/index.js";
@@ -90,12 +92,52 @@ router.get("/lost", async (req, res) => {
   }
 });
 
+// Update Lost mode - PATCH
 router.patch("/lost", async (req, res) => {
   const code = req.query.code;
   const update = req.body.lost;
   if (code !== undefined && update !== undefined) {
     try {
       const updatedData = await updateLost(code, update);
+      if (updatedData) {
+        res.status(200).json(updatedData);
+      } else {
+        res.status(404).json({ error: "Lost data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code or update parameter" });
+  }
+});
+
+// GET contacts
+router.get("/contacts", async (req, res) => {
+  if (req.query.code !== undefined) {
+    const code = req.query.code;
+    try {
+      const lostData = await getContactsData(code);
+      if (lostData) {
+        res.status(200).json(lostData);
+      } else {
+        res.status(404).json({ error: "Contacts not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code parameter" });
+  }
+});
+
+// Update contacts - PATCH
+router.patch("/lost", async (req, res) => {
+  const code = req.query.code;
+  const update = req.body.contacts;
+  if (code !== undefined && update !== undefined) {
+    try {
+      const updatedData = await updateContacts(code, update);
       if (updatedData) {
         res.status(200).json(updatedData);
       } else {
