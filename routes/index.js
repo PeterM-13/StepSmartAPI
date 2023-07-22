@@ -9,6 +9,10 @@ import {
   updateContacts,
   getLostData,
   updateLost,
+  getHeartData, 
+  updateHeartData,
+  getBatteryData, 
+  updateBatteryData
 } from "../models/index.js";
 
 function error(data, res){
@@ -151,5 +155,83 @@ router.patch("/contacts", async (req, res) => {
     res.status(400).json({ error: "Missing code or update parameter" });
   }
 });
+
+// GET heart rate data
+router.get("/heart", async (req, res) => {
+  if (req.query.code !== undefined) {
+    const code = req.query.code;
+    try {
+      const alertData = await getHeartData(code);
+      if (alertData) {
+        res.status(200).json(alertData);
+      } else {
+        res.status(404).json({ error: "Heart data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code parameter" });
+  }
+});
+// PATCH heart rate data
+router.patch("/heart", async (req, res) => {
+  const code = req.query.code;
+  const update = req.body;
+  if (code !== undefined && update !== undefined) {
+    try {
+      const updatedData = await updateHeartData(code, update);
+      if (updatedData) {
+        res.status(200).json(updatedData);
+      } else {
+        res.status(404).json({ error: "Heart data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code or update parameter" });
+  }
+});
+
+// GET battery level
+router.get("/battery", async (req, res) => {
+  if (req.query.code !== undefined) {
+    const code = req.query.code;
+    try {
+      const lostData = await getBatteryData(code);
+      if (lostData) {
+        res.status(200).json(lostData);
+      } else {
+        res.status(404).json({ error: "Battery data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code parameter" });
+  }
+});
+
+// Update battery level - PATCH
+router.patch("/battery", async (req, res) => {
+  const code = req.query.code;
+  const update = req.body.battery;
+  if (code !== undefined && update !== undefined) {
+    try {
+      const updatedData = await updateBatteryData(code, update);
+      if (updatedData) {
+        res.status(200).json(updatedData);
+      } else {
+        res.status(404).json({ error: "Battery data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code or update parameter" });
+  }
+});
+
 
 export default router;

@@ -25,10 +25,10 @@ async function dropTable() {
 async function refillTable() {
   return await pool.query(
     `INSERT INTO StickData (code, alert, contacts, lost, heartRate, battery, extra)
-    VALUES ('12345678', '{"alert": "1", "fall": "60", "alarm": "60", "volume": "5"}'::jsonb, ARRAY['{"name":"Jack Smith", "phoneNumber":"012345678901"}','{"name":"Harry Smith", "phoneNumber":"012345678900"}'], false, '{}'::jsonb, 75, '{}'::jsonb);
+    VALUES ('12345678', '{"alert": "1", "fall": "60", "alarm": "60", "volume": "5"}'::jsonb, ARRAY['{"name":"Jack Smith", "phoneNumber":"012345678901"}','{"name":"Harry Smith", "phoneNumber":"012345678900"}'], false, '{"logging":"1", "times":[], "readings":[]}'::jsonb, 75, '{}'::jsonb);
     
     INSERT INTO StickData (code, alert, contacts, lost, heartRate, battery, extra)
-    VALUES ('55555555', '{"alert": "0", "fall": "10", "alarm": "10", "volume": "1"}'::jsonb, ARRAY['{"name":"Shelly Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{}'::jsonb, 75, '{}'::jsonb);
+    VALUES ('55555555', '{"alert": "0", "fall": "10", "alarm": "10", "volume": "1"}'::jsonb, ARRAY['{"name":"Shelly Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{"logging":"1", "times":[], "readings":[]}'::jsonb, 75, '{}'::jsonb);
 
     INSERT INTO StickData (code, alert, contacts, lost, heartRate, battery, extra)
     VALUES ('22222222', '{"alert": "1", "fall": "30", "alarm": "30", "volume": "10"}'::jsonb, ARRAY['{"name":"Smith Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{}'::jsonb, 75, '{}'::jsonb);

@@ -73,4 +73,59 @@ async function updateContacts(code, update) {
   return results.rows[0];
 }
 
-export { getStickData, getAlertData, updateAlert, getContactsData, updateContacts, getLostData, updateLost };
+// Function to get all heart rate data
+async function getHeartData(code) {
+  const results = await pool.query(
+    `SELECT heartRate
+    FROM StickData
+    WHERE code = $1`,
+    [code]
+  );
+  return results.rows[0];
+}
+// async function to update all heart rate data
+async function updateHeartData(code, update) {
+  const results = await pool.query(
+    `UPDATE StickData
+    SET heartRate = $2
+    WHERE code = $1
+    RETURNING *`,
+    [code, update]
+  );
+  return results.rows[0];
+}
+
+// Function to get battery data
+async function getBatteryData(code) {
+  const results = await pool.query(
+    `SELECT battery
+    FROM StickData
+    WHERE code = $1`,
+    [code]
+  );
+  return results.rows[0];
+}
+// async function to update battery data
+async function updateBatteryData(code, update) {
+  const results = await pool.query(
+    `UPDATE StickData
+    SET battery = $2
+    WHERE code = $1
+    RETURNING *`,
+    [code, update]
+  );
+  return results.rows[0];
+}
+
+export { getStickData, 
+        getAlertData, 
+        updateAlert, 
+        getContactsData, 
+        updateContacts, 
+        getLostData, 
+        updateLost, 
+        getHeartData, 
+        updateHeartData, 
+        getBatteryData, 
+        updateBatteryData
+     };
