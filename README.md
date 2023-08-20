@@ -22,13 +22,17 @@ Can then use Postman to test api at url `localhost:3000/StepSmart/api/?code=1234
 API is at `/StepSmart/api/`<br>
 A code is required: `/StepSmart/api/?code=12345678`<br>
 The PATCH method requires a body in json format
-| Endpoint                 | Method    | URL                                |
-| ----------------------- | --------- | ---------------------------------- |
-| Alert data              | GET/PATCH | `/StepSmart/api/alert?code=12345678`    |
-| Contacts                | GET/PATCH | `/StepSmart/api/contacts?code=12345678` |
-| Lost mode               | GET/PATCH | `/StepSmart/api/lost?code=12345678`    |
-| Heart rate data         | GET/PATCH | `/StepSmart/api/heart?code=12345678`   |
-| Battery level           | GET/PATCH | `/StepSmart/api/battery?code=12345678` |
+| Endpoint        | Method    | URL                                   | JSON Body Format                                  |
+| --------------- | --------- | ------------------------------------- | ------------------------------------------------- |
+| All data        | GET       | `/StepSmart/api?code=12345678`        | NA                                                |
+| Devices         | GET/POST  | `/StepSmart/api/devices?code=12345678`| `{"devices":"Example"}`                         |
+| Alert data      | GET/PATCH | `/StepSmart/api/alert?code=12345678`  | `{"alert": "0", "fall": "60", "alarm": "60", "volume": "5"}` |
+| Contacts        | GET/PATCH | `/StepSmart/api/contacts?code=12345678`| `['{"name":"Jack", "phoneNumber":"012345678901"}']` |
+| Lost mode       | GET/PATCH | `/StepSmart/api/lost?code=12345678`   | `{"lostMode": false}`                           |
+| Heart rate data | GET/PATCH | `/StepSmart/api/heart?code=12345678`  | `{"logging": "1", "times": [], "readings": []}` |
+| Battery level   | GET/PATCH | `/StepSmart/api/battery?code=12345678`| `{"battery": 60}`                               |
+| Emergency       | GET/PATCH | `/StepSmart/api/emergency?code=12345678`| `{"emergency": false}`                         |
+
 
 ## Author
 - Peter Metcalfe
