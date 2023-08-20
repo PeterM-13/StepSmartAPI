@@ -9,6 +9,35 @@ async function getStickData(code) {
   );
   return results.rows[0];
 }
+
+// GET devices data
+async function getDevices(code){
+  let results = await pool.query(
+    `SELECT devices
+    FROM StickData
+    WHERE code = $1`,
+    [code]
+  );
+return results.rows[0].devices;
+}
+// async function to update devices data
+async function updateDevices(code, newDevice) {
+  let devicesArray = await getDevices(code);
+  if (!devicesArray.includes(newDevice)) {
+    devicesArray.push(newDevice);
+    const updatedList = await pool.query(
+      `UPDATE StickData
+      SET devices = $2
+      WHERE code = $1
+      RETURNING *`,
+      [code, devicesArray]
+    );
+    return updatedList.rows[0];
+  }else{
+    return {"Error":"Device alreday exists"}
+  }
+}
+
 // async function to get alert data
 async function getAlertData(code) {
   const results = await pool.query(
@@ -138,7 +167,9 @@ async function updateEmergency(code, update) {
   return results.rows[0];
 }
 
-export { getStickData, 
+export { getStickData,
+        getDevices,
+        updateDevices,
         getAlertData, 
         updateAlert, 
         getContactsData, 

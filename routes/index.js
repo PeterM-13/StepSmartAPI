@@ -5,6 +5,8 @@ const router = express.Router();
 
 import {
   getStickData,
+  getDevices,
+  updateDevices,
   getAlertData,
   updateAlert,
   getContactsData,
@@ -40,6 +42,46 @@ router.get("/", async (req, res) => {
     }
   } else {
     res.status(200).json({ status: "Good connection", error: "Add code parameter" });
+  }
+});
+
+// GET devices
+router.get("/devices", async (req, res) => {
+  if (req.query.code !== undefined) {
+    const code = req.query.code;
+    try {
+      const devices = await getDevices(code);
+      if (devices) {
+        res.status(200).json(devices);
+      } else {
+        res.status(404).json({ error: "Devices data not found" });
+      }
+    } catch (error) {
+      console.error("Error getting devices:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code parameter" });
+  }
+});
+// POST devices data (add new one)
+router.post("/devices", async (req, res) => {
+  const code = req.query.code;
+  const update = req.body.devices;
+  if (code !== undefined && update !== undefined) {
+    try {
+      const updatedData = await updateDevices(code, update);
+      if (updatedData) {
+        res.status(200).json(updatedData);
+      } else {
+        res.status(404).json({ error: "Device data not found" });
+      }
+    } catch (error) {
+      console.error("Error adding device:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code or update parameter" });
   }
 });
 
@@ -125,9 +167,9 @@ router.get("/contacts", async (req, res) => {
   if (req.query.code !== undefined) {
     const code = req.query.code;
     try {
-      const lostData = await getContactsData(code);
-      if (lostData) {
-        res.status(200).json(lostData);
+      const contactsData = await getContactsData(code);
+      if (contactsData) {
+        res.status(200).json(contactsData);
       } else {
         res.status(404).json({ error: "Contacts not found" });
       }
@@ -165,9 +207,9 @@ router.get("/heart", async (req, res) => {
   if (req.query.code !== undefined) {
     const code = req.query.code;
     try {
-      const alertData = await getHeartData(code);
-      if (alertData) {
-        res.status(200).json(alertData);
+      const heartData = await getHeartData(code);
+      if (heartData) {
+        res.status(200).json(heartData);
       } else {
         res.status(404).json({ error: "Heart data not found" });
       }
@@ -203,9 +245,9 @@ router.get("/battery", async (req, res) => {
   if (req.query.code !== undefined) {
     const code = req.query.code;
     try {
-      const lostData = await getBatteryData(code);
-      if (lostData) {
-        res.status(200).json(lostData);
+      const batteryData = await getBatteryData(code);
+      if (batteryData) {
+        res.status(200).json(batteryData);
       } else {
         res.status(404).json({ error: "Battery data not found" });
       }
@@ -243,7 +285,7 @@ router.get("/emergency", async (req, res) => {
     const code = req.query.code;
     try {
       const emergencyData = await getEmergency(code);
-      if (lostData) {
+      if (emergencyData) {
         res.status(200).json(emergencyData);
       } else {
         res.status(404).json({ error: "Lost data not found" });
