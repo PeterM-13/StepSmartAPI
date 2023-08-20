@@ -267,6 +267,8 @@ function sendNotification(){
   const somePushTokens = [
     `ExponentPushToken[${process.env.EXPO_ACCESS_TOKEN}]`,
   ]
+  console.log(somePushTokens[0]);
+
   // Create the messages that you want to send to clients
   let messages = [];
   for (let pushToken of somePushTokens) {
