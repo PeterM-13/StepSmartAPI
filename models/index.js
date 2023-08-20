@@ -117,6 +117,15 @@ async function updateBatteryData(code, update) {
   return results.rows[0];
 }
 
+// Function to get 'emergency' data
+async function getEmergency(code) {
+  const results = await pool.query(
+    `SELECT emergency FROM StickData
+    WHERE code = $1`,
+    [code]
+  );
+  return results.rows[0];
+}
 // async function to update lost value
 async function updateEmergency(code, update) {
   const results = await pool.query(
@@ -140,5 +149,6 @@ export { getStickData,
         updateHeartData, 
         getBatteryData, 
         updateBatteryData,
+        getEmergency,
         updateEmergency
      };

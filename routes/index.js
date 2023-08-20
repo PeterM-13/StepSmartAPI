@@ -15,7 +15,8 @@ import {
   updateHeartData,
   getBatteryData, 
   updateBatteryData,
-  updateEmergency
+  getEmergency,
+  updateEmergency,
 } from "../models/index.js";
 
 function error(data, res){
@@ -236,13 +237,31 @@ router.patch("/battery", async (req, res) => {
   }
 });
 
+// GET emergency value
+router.get("/emergency", async (req, res) => {
+  if (req.query.code !== undefined) {
+    const code = req.query.code;
+    try {
+      const emergencyData = await getEmergency(code);
+      if (lostData) {
+        res.status(200).json(emergencyData);
+      } else {
+        res.status(404).json({ error: "Lost data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code parameter" });
+  }
+});
 // Update emergency bool - PATCH
 router.patch("/emergency", async (req, res) => {
   const code = req.query.code;
-  const update = req.body.emergency;
+  const update = req.body;
   if (code !== undefined && update !== undefined) {
     try {
-      const updatedData = await updateEmergency(code, update);
+      const updatedData = await updateEmergency(code, update.emergency);
       if (updatedData) {
         res.status(200).json(updatedData);
       } else {
@@ -254,12 +273,18 @@ router.patch("/emergency", async (req, res) => {
   } else {
     res.status(400).json({ error: "Missing code or update parameter" });
   }
-  if(update){
-    sendNotification();
+
+  const alertData = await getAlertData(code);
+  if(update.emergency && alertData.alert == '1'){
+    if(update.fall){
+      sendNotification('FALL DETECTED!', 'StepSmart has detected a fall from a walking stick you are monitoring. Assisstance maybe required.');
+    }else{
+      sendNotification('EMERGENCY!', 'The emergency button has been pressed on a walking stick you are monitoring. Assisstance maybe required.');
+    }
   }
 });
 
-function sendNotification(){
+function sendNotification(title, body){
   // Create a new Expo SDK client
   // optionally providing an access token if you have enabled push security
   let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
@@ -273,9 +298,10 @@ function sendNotification(){
   const message = {
     to: pushTokens,
     sound: 'default',
-    title: 'FALL DETECTED!',
-    body: 'StepSmart has detected a fall from a walking stick you are monitoring. Assisstance maybe required.',
-    data: { additionalData: 'You can add additional data here.' }
+    priority: 'high',
+    title: title,
+    body: body,
+    //data: { additionalData: 'You can add additional data here.' }
   };
 
   // Send the notification
