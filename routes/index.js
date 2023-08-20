@@ -237,13 +237,14 @@ router.patch("/battery", async (req, res) => {
 });
 
 // Update emergency bool - PATCH
-router.patch("/emeergency", async (req, res) => {
+router.patch("/emergency", async (req, res) => {
   const code = req.query.code;
   const update = req.body.emergency;
   if (code !== undefined && update !== undefined) {
     try {
       const updatedData = await updateEmergency(code, update);
       if (updatedData) {
+        sendNotification();
         res.status(200).json(updatedData);
       } else {
         res.status(404).json({ error: "emeregncy data not found" });
@@ -254,8 +255,6 @@ router.patch("/emeergency", async (req, res) => {
   } else {
     res.status(400).json({ error: "Missing code or update parameter" });
   }
-  console.log(update);
-  
 });
 
 function sendNotification(){
