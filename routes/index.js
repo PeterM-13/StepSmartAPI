@@ -239,6 +239,29 @@ router.patch("/heart", async (req, res) => {
     res.status(400).json({ error: "Missing code or update parameter" });
   }
 });
+// POST a single heart rate value
+router.post("/heartBpm", async (req, res) => {
+  const code = req.query.code;
+  const value = parseInt(req.body.value);
+  const heartData = await getHeartData(code);
+  let update = heartData;
+  console.log(update)
+  update.heartrate.readings[update.heartrate.readings.length-1] = value;
+  if (code !== undefined && update !== undefined && !isNaN(value)) {
+    try {
+      const updatedData = await updateHeartData(code, update.heartrate);
+      if (updatedData) {
+        res.status(200).json(updatedData);
+      } else {
+        res.status(404).json({ error: "Heart bpm data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ error: "Missing code or update parameter" });
+  }
+});
 
 // GET battery level
 router.get("/battery", async (req, res) => {
@@ -319,22 +342,27 @@ router.patch("/emergency", async (req, res) => {
   const alertData = await getAlertData(code);
   if(update.emergency && alertData.alert == '1'){
     if(update.fall){
-      sendNotification('FALL DETECTED!', 'StepSmart has detected a fall from a walking stick you are monitoring. Assisstance maybe required.');
+      await sendNotification(code, 'FALL DETECTED!', 'StepSmart has detected a fall from a walking stick you are monitoring. Assisstance maybe required.');
     }else{
-      sendNotification('EMERGENCY!', 'The emergency button has been pressed on a walking stick you are monitoring. Assisstance maybe required.');
+      await sendNotification(code, 'EMERGENCY!', 'The emergency button has been pressed on a walking stick you are monitoring. Assisstance maybe required.');
     }
   }
 });
 
-function sendNotification(title, body){
+async function sendNotification(code, title, body){
   // Create a new Expo SDK client
   // optionally providing an access token if you have enabled push security
   let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
 
   // An array of push tokens to send notifications to
-  const pushTokens = [
-    'ExponentPushToken[c4x9xaAuN8ToW5TAQDkEgN]'
-  ];
+  let pushTokens;
+  try{
+    pushTokens = await getDevices(code);
+  }
+  catch(error){
+    console.error("Failed to fetch tokens, couldn't send notification:\n", error)
+    return;
+  }
 
   // Create a message to send
   const message = {

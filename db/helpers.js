@@ -26,13 +26,13 @@ async function dropTable() {
 async function refillTable() {
   return await pool.query(
     `INSERT INTO StickData (code, devices, alert, contacts, lost, heartRate, battery, emergency)
-    VALUES ('12345678', ARRAY['c4x9xaAuN8ToW5TAQDkEgN'],'{"alert": "0", "fall": "60", "alarm": "60", "volume": "5"}'::jsonb, ARRAY['{"name":"Jack Smith", "phoneNumber":"012345678901"}','{"name":"Harry Smith", "phoneNumber":"012345678900"}'], false, '{"logging":"1", "times":[], "readings":[]}'::jsonb, 75, false);
+    VALUES ('12345678', ARRAY['ExponentPushToken[c4x9xaAuN8ToW5TAQDkEgN]'],'{"alert": "1", "fall": "60", "alarm": "60", "volume": "5"}'::jsonb, ARRAY['{"name":"Jack Smith", "phoneNumber":"012345678901"}','{"name":"Harry Smith", "phoneNumber":"012345678900"}'], false, '{"logging":"1", "times":["08:00","08:30","09:00","09:30","10:00","11:00"], "readings":[70,60,68,74,78,80,87,76,100,80]}'::jsonb, 75, false);
     
     INSERT INTO StickData (code, devices, alert, contacts, lost, heartRate, battery, emergency)
-    VALUES ('55555555', ARRAY['c4x9xaAuN8ToW5TAQDkEgN'], '{"alert": "0", "fall": "10", "alarm": "10", "volume": "1"}'::jsonb, ARRAY['{"name":"Shelly Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{"logging":"1", "times":[], "readings":[]}'::jsonb, 75, false);
+    VALUES ('55555555', ARRAY['ExponentPushToken[c4x9xaAuN8ToW5TAQDkEgN]'], '{"alert": "0", "fall": "10", "alarm": "10", "volume": "1"}'::jsonb, ARRAY['{"name":"Shelly Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{"logging":"1", "times":[], "readings":[]}'::jsonb, 75, false);
 
     INSERT INTO StickData (code, devices, alert, contacts, lost, heartRate, battery, emergency)
-    VALUES ('22222222', ARRAY['c4x9xaAuN8ToW5TAQDkEgN'], '{"alert": "1", "fall": "30", "alarm": "30", "volume": "10"}'::jsonb, ARRAY['{"name":"Smith Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{}'::jsonb, 75, false);
+    VALUES ('22222222', ARRAY['ExponentPushToken[c4x9xaAuN8ToW5TAQDkEgN]'], '{"alert": "1", "fall": "30", "alarm": "30", "volume": "10"}'::jsonb, ARRAY['{"name":"Smith Smith", "phoneNumber":"012345678901"}'::jsonb], false, '{}'::jsonb, 75, false);
     `
   );
 }
