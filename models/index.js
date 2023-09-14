@@ -3,7 +3,8 @@ import { pool } from "../db/index.js";
 // async function to get by name
 async function getStickData(code) {
   const results = await pool.query(
-      `SELECT * FROM StickData
+      `SELECT devices,alert,lost,heartRate,battery,emergency 
+      FROM StickData
       WHERE code = $1`,
       [code]
   );
