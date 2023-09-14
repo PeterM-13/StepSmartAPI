@@ -10,6 +10,17 @@ async function getStickData(code) {
   return results.rows[0];
 }
 
+// GET data need for arduino
+async function getArduinoData(code){
+  const results = await pool.query(
+    `SELECT alert,lost,heartRate,emergency
+    FROM StickData
+    WHERE code = $1`,
+    [code]
+);
+  return results.rows[0];
+}
+
 // GET devices data
 async function getDevices(code){
   let results = await pool.query(
@@ -168,6 +179,7 @@ async function updateEmergency(code, update) {
 }
 
 export { getStickData,
+        getArduinoData,
         getDevices,
         updateDevices,
         getAlertData, 

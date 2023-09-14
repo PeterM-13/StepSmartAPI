@@ -5,6 +5,7 @@ const router = express.Router();
 
 import {
   getStickData,
+  getArduinoData,
   getDevices,
   updateDevices,
   getAlertData,
@@ -36,6 +37,27 @@ router.get("/", async (req, res) => {
         res.status(200).json(stickData);
       } else {
         res.status(404).json({ error: "Stick data not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(200).json({ status: "Good connection", error: "Add code parameter" });
+  }
+});
+
+// GET all arduino data
+router.get("/arduino", async (req, res) => {
+  if (req.query.code !== undefined) {
+    const code = req.query.code;
+    try {
+      console.log(code);
+      const stickData = await getArduinoData(code);
+      console.log(stickData);
+      if (stickData) {
+        res.status(200).json(stickData);
+      } else {
+        res.status(404).json({ error: "Arduino data not found" });
       }
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
